@@ -63,7 +63,7 @@ public class MotoLogEngine {
         //String garageObjectId = motoLogEngine.parseEngine.getGarageParseEngine().getUserGarageObjectId(parseUser);
 
         List<Mechanic> mechanicList = motoLogEngine.parseEngine.getMechanicParseEngine().getMechanics(parseUser);
-        System.out.println("Testoutput - Time to get mechanics, we have " + mechanicList.size());
+        System.out.println("Testoutput - Time to get mechanics.. we have " + mechanicList.size());
         for(Mechanic mechanic : mechanicList){
             System.out.println("Testoutput - " + mechanic.getObjectId());
             System.out.println("Testoutput - " + mechanic.toString());
