@@ -16,7 +16,7 @@ import org.parse4j.ParseUser;
  */
 abstract class BaseParseObject extends ParseObject{
     private String garageObjectId;
-    private ParseUser parseUser;
+    //private ParseUser parseUser; removing this
         
     public void setGarageObjectId(String incomingGarageObjectId){
         this.garageObjectId = incomingGarageObjectId;
@@ -28,12 +28,12 @@ abstract class BaseParseObject extends ParseObject{
         return this.garageObjectId;
     }
     
-    public ParseUser getParseUser(){ return this.parseUser; }
-    
-    public void setParseUser(ParseUser incomingParseUser){ 
-        this.parseUser = incomingParseUser; 
-        this.put(ParseDataFieldNames.user.toString(), incomingParseUser);
-    }
+//    public ParseUser getParseUser(){ return this.parseUser; }
+//    
+//    public void setParseUser(ParseUser incomingParseUser){ 
+//        this.parseUser = incomingParseUser; 
+//        this.put(ParseDataFieldNames.user.toString(), incomingParseUser);
+//    }
     
     /**
      * Method to ensure garage object id and parse user aren't null
@@ -41,7 +41,7 @@ abstract class BaseParseObject extends ParseObject{
      * @return 
      */
     public boolean isWellFormed(){
-        if(this.getGarageObjectId()== null || this.getParseUser() == null){
+        if(this.getGarageObjectId()== null){
             return false;
         }else{
             return true;

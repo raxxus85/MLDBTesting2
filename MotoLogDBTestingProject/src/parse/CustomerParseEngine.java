@@ -57,9 +57,9 @@ public class CustomerParseEngine {
      * @param parseUser
      * @return 
      */
-    public List<Customer> getCustomers(ParseUser parseUser){
+    public List<Customer> getCustomers(String garageObjectId){
         List<Customer> customerList = new ArrayList<>();
-        List<ParseObject> list = this.parseEngine.getObjects(parseUser, ObjectType.Customer);
+        List<ParseObject> list = this.parseEngine.getObjects(garageObjectId, ObjectType.Customer);
         if(list==null){
             return customerList;
         }

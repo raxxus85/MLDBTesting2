@@ -53,7 +53,7 @@ public class MotoLogEngine {
         newMechanic.setFirstName("Mark");
         newMechanic.setMiddleName("Patrick");
         newMechanic.setLastName("Milford");
-        newMechanic.setParseUser(parseUser);
+        //newMechanic.setParseUser(parseUser);
         newMechanic.setGarageObjectId(garageObjectId);
         
         
@@ -62,8 +62,8 @@ public class MotoLogEngine {
         // get the useres garageObjectId
         //String garageObjectId = motoLogEngine.parseEngine.getGarageParseEngine().getUserGarageObjectId(parseUser);
 
-        List<Mechanic> mechanicList = motoLogEngine.parseEngine.getMechanicParseEngine().getMechanics(parseUser);
-        System.out.println("Testoutput - Time to get mechanics, we have " + mechanicList.size());
+        List<Mechanic> mechanicList = motoLogEngine.parseEngine.getMechanicParseEngine().getMechanics(garageObjectId);
+        System.out.println("Testoutput - Time to get mechanics.. we have " + mechanicList.size());
         for(Mechanic mechanic : mechanicList){
             System.out.println("Testoutput - " + mechanic.getObjectId());
             System.out.println("Testoutput - " + mechanic.toString());
@@ -75,14 +75,14 @@ public class MotoLogEngine {
         newCustomer.setFirstName("Hannah");
         newCustomer.setMiddleName("Paige");
         newCustomer.setLastName("Milford");
-        newCustomer.setParseUser(parseUser);
+        //newCustomer.setParseUser(parseUser);
         newCustomer.setGarageObjectId(garageObjectId);
         
         
         motoLogEngine.parseEngine.getCustomerParseEngine().createCustomer(newCustomer);
         
         Customer testCustomer = null;
-        List<Customer> customerList = motoLogEngine.parseEngine.getCustomerParseEngine().getCustomers(parseUser);
+        List<Customer> customerList = motoLogEngine.parseEngine.getCustomerParseEngine().getCustomers(garageObjectId);
         System.out.println("Testoutput - Time to get customers, we have " + customerList.size());
         for(Customer customer : customerList){
             System.out.println("Testoutput - " + customer.getObjectId());
@@ -96,10 +96,18 @@ public class MotoLogEngine {
         newVehicle.setMake("Pontiac");
         newVehicle.setModel("Trans Am");
         newVehicle.setYear(1999);
-        newVehicle.setParseUser(parseUser);
+        //newVehicle.setParseUser(parseUser);
         newVehicle.setGarageObjectId(garageObjectId);
-        
         motoLogEngine.parseEngine.getVehicleParseEngine().createVehicle(newVehicle);
+  
+        // get vehicles
+        List<Vehicle> vehicleList = motoLogEngine.parseEngine.getVehicleParseEngine().getVehicles(garageObjectId, testCustomer);
+        System.out.println("Testoutput - Time to get vehicles for specific customer, we have " + vehicleList.size());
+        for(Vehicle vehicle : vehicleList){
+            System.out.println("Testoutput - " + vehicle.getObjectId());
+            System.out.println("Testoutput - " + vehicle.toString());
+            //testCustomer = customer;
+        }
 
         System.exit(0);
 

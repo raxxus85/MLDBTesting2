@@ -54,12 +54,14 @@ public class VehicleParseEngine {
     
         /**
      * Method to use to get list of vehicles NEED TO TWEAK !!!! CHECK BY CUSTOMER!!!!!
-     * @param parseUser
+     * @param garageObjectId
+     * @param incomingCustomer
      * @return List<Vehicle>
      */
-    public List<Vehicle> getVehicles(ParseUser incomingParseUser, Customer incomingCustomer){
+    public List<Vehicle> getVehicles(String garageObjectId, Customer incomingCustomer){
         List<Vehicle> vehicleList = new ArrayList<>();
-        List<ParseObject> list = this.parseEngine.getObjects(incomingParseUser, ObjectType.Vehicle);
+        List<ParseObject> list = this.parseEngine.getChildObjects
+        (ParseDataFieldNames.customerId,incomingCustomer.getObjectId(), garageObjectId, ObjectType.Vehicle);
         if(list==null){
             return vehicleList;
         }
