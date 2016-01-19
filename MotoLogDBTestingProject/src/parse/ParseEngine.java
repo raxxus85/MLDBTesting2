@@ -68,15 +68,17 @@ public class ParseEngine {
        
     /**
      * Method used to count objects from Parse
-     * <li> Utilized ObjectType (GARAGE,MECHANIC,etc. ) to return the COUNT of that specified object <li>
-     * @param parseUser user who wants to count his objects
+     * Requires the garageObjectId and the ObjectType
+     * @param garageObjectId
      * @param objectType the objectType that needs counted
      * @return integer, the amount of that object (0-n)
      */
-    public int getObjectCount(ParseUser parseUser, ObjectType objectType){
+    public int getObjectCount(String garageObjectId, ObjectType objectType){
         String objectBeingCounted = objectType.toString();
+        
         ParseQuery<ParseObject> basicQuery = ParseQuery.getQuery(objectBeingCounted);
-            basicQuery.whereEqualTo(ParseDataFieldNames.user.toString(), parseUser);
+            //basicQuery.whereEqualTo(ParseDataFieldNames.user.toString(), parseUser);
+            basicQuery.whereEqualTo(ParseDataFieldNames.garageObjectId.toString(), this.garageObjectId);
             basicQuery.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objectList, ParseException e) {
                 if (e == null) {
@@ -105,16 +107,49 @@ public class ParseEngine {
     }
     
     /**
+     * Method used to retrieve objects from Parse that are children of other objects
+     * Used for Vehicles, Maintenance Actions, etc
+     * @param garageObjectId
+     * @param objectType
+     * @return List of ParseObjects
+     */
+    public List<ParseObject> getChildObjects(ParseDataFieldNames parentFieldName, String parentStringId, String garageObjectId, ObjectType objectType){
+        String objectsToGet = objectType.toString();
+        ParseQuery<ParseObject> basicQuery = ParseQuery.getQuery(objectsToGet);
+            basicQuery.whereEqualTo(ParseDataFieldNames.garageObjectId.toString(), this.garageObjectId);
+            basicQuery.whereEqualTo(parentFieldName.toString(), parentStringId);
+            basicQuery.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objectList, ParseException e) {
+                if (e == null) {
+                    // No need for anything to be done if no exception.... 
+                } else {
+                    String message = "ParseEngine - Something failing getting objects!";
+                    Logger.getLogger(MotoLogEngine.class.getName()).log(Level.SEVERE, message, e);
+                }
+            }
+        });
+        // Time to extract actual list
+        List<ParseObject> parseObjectList = null;
+        try {
+            parseObjectList = basicQuery.find();
+        } catch (ParseException ex) {
+            String message = "ParseEngine - Something failed compling list of ParseObjects!";
+            Logger.getLogger(MotoLogEngine.class.getName()).log(Level.SEVERE, message, ex);
+        }
+        return parseObjectList;  
+    }
+    
+    
+    /**
      * Method used to retrieve objects from Parse
-     * @param parseUser
-     * @param incomingGarageObjectId
+     * Used for Mechanics, Customers
+     * @param garageObjectId
      * @param objectType
      * @return List<ParseObject>
      */
-    public List<ParseObject> getObjects(ParseUser parseUser, ObjectType objectType){
+    public List<ParseObject> getObjects(String garageObjectId, ObjectType objectType){   
         String objectsToGet = objectType.toString();
         ParseQuery<ParseObject> basicQuery = ParseQuery.getQuery(objectsToGet);
-            basicQuery.whereEqualTo(ParseDataFieldNames.user.toString(), parseUser);
             basicQuery.whereEqualTo(ParseDataFieldNames.garageObjectId.toString(), this.garageObjectId);
             basicQuery.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objectList, ParseException e) {
@@ -140,7 +175,6 @@ public class ParseEngine {
     /**
      * Method used to retrieve objects from Parse without GarageObjectId (only a Garage for now...)
      * @param parseUser
-     * @param objectType
      * @return List<ParseObject> 
      */
     public List<ParseObject> getGarages(ParseUser parseUser){

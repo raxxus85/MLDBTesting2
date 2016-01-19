@@ -47,7 +47,12 @@ public class GarageParseEngine {
             newGarage.setName(parseUser.getUsername() + "'s Garage");
             newGarage.setParseUser(parseUser);
             this.createGarage(newGarage);
-            // ensure creation was successflu?
+            // ensure creation was successful, but we must first wait a second... for it to build
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }       
             numberOfGarages = this.getUserGarageCount(parseUser);
         }else if(numberOfGarages > 1){
             Logger.getLogger(MechanicParseEngine.class.getName()).log(Level.SEVERE, "GarageParseEngine - User has more than one garage!");
@@ -55,9 +60,11 @@ public class GarageParseEngine {
             Logger.getLogger(MechanicParseEngine.class.getName()).log(Level.INFO, "GarageParseEngine - User had exactly one garage.");
         }
         
-        return(numberOfGarages == 1);
+        return(numberOfGarages==1);
         
     }
+        
+       
     
     /**
      * Method used to create the user's garage
@@ -85,8 +92,13 @@ public class GarageParseEngine {
      * @return integer - number of Garages
      */
     public int getUserGarageCount(ParseUser parseUser){
-        return this.parseEngine.getObjectCount(parseUser, ObjectType.Garage);
-        
+        List<ParseObject> garages = this.parseEngine.getGarages(parseUser);
+        if(garages == null){
+            return 0;
+        }else{
+            return garages.size();
+        }
+        //return this.parseEngine.getObjectCount(parseUser, ObjectType.Garage);       
     }
     
     

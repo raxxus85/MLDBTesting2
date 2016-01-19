@@ -62,9 +62,9 @@ public class MechanicParseEngine {
      * @param incomingGarageObjectId
      * @return 
      */
-    public List<Mechanic> getMechanics(ParseUser parseUser){
+    public List<Mechanic> getMechanics(String garageObjectId){
         List<Mechanic> mechanicList = new ArrayList<>();
-        List<ParseObject> list = this.parseEngine.getObjects(parseUser, ObjectType.Mechanic);
+        List<ParseObject> list = this.parseEngine.getObjects(garageObjectId,ObjectType.Mechanic);
         if(list==null){
             return mechanicList;
         }
