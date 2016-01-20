@@ -109,6 +109,8 @@ public class ParseEngine {
     /**
      * Method used to retrieve objects from Parse that are children of other objects
      * Used for Vehicles, Maintenance Actions, etc
+     * @param parentFieldName
+     * @param parentStringId
      * @param garageObjectId
      * @param objectType
      * @return List of ParseObjects
