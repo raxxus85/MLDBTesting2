@@ -5,9 +5,7 @@
  */
 package parse.objectmodels;
 
-import org.parse4j.ParseClassName;
 import org.parse4j.ParseObject;
-import org.parse4j.ParseUser;
 
 
 /**
